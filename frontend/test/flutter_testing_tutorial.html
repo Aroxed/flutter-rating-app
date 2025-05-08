@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter Testing Tutorial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .note {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #2196f3;
+            margin: 20px 0;
+        }
+        .tip {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-left: 4px solid #4caf50;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-left: 4px solid #ff9800;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flutter Testing Tutorial</h1>
+    
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#test-types">Types of Tests</a></li>
+        <li><a href="#widget-tests">Widget Tests</a></li>
+        <li><a href="#mocking">Mocking in Flutter Tests</a></li>
+        <li><a href="#best-practices">Best Practices</a></li>
+        <li><a href="#example">Complete Example</a></li>
+    </ul>
+
+    <h2 id="introduction">Introduction</h2>
+    <p>
+        Testing is a crucial part of Flutter development that ensures your app works as expected.
+        Flutter provides a comprehensive testing framework that allows you to test your app at different levels.
+    </p>
+
+    <h2 id="test-types">Types of Tests</h2>
+    <h3>1. Unit Tests</h3>
+    <p>
+        Unit tests verify the behavior of individual functions, methods, or classes.
+        They are the foundation of your testing strategy and should be fast and reliable.
+    </p>
+
+    <h3>2. Widget Tests</h3>
+    <p>
+        Widget tests verify that your widgets work as expected.
+        They test the widget's UI and behavior in isolation.
+    </p>
+
+    <h3>3. Integration Tests</h3>
+    <p>
+        Integration tests verify that different parts of your app work together correctly.
+        They test the app as a whole, including external dependencies.
+    </p>
+
+    <h2 id="widget-tests">Widget Tests</h2>
+    <p>
+        Widget tests are the most common type of test in Flutter applications.
+        They use the <code>WidgetTester</code> utility to interact with widgets in a test environment.
+    </p>
+
+    <h3>Basic Widget Test Structure</h3>
+    <pre><code>
+void main() {
+  testWidgets('MyWidget test', (WidgetTester tester) async {
+    // Build the widget
+    await tester.pumpWidget(MyWidget());
+
+    // Interact with the widget
+    await tester.tap(find.byType(Button));
+
+    // Wait for animations to complete
+    await tester.pumpAndSettle();
+
+    // Verify the result
+    expect(find.text('Success'), findsOneWidget);
+  });
+}
+    </code></pre>
+
+    <div class="note">
+        <strong>Note:</strong> Always use <code>await</code> with <code>tester</code> methods as they are asynchronous.
+    </div>
+
+    <h2 id="mocking">Mocking in Flutter Tests</h2>
+    <p>
+        Mocking is essential when testing widgets that depend on external services or APIs.
+        In our example, we use <code>MockClient</code> to simulate HTTP responses.
+    </p>
+
+    <h3>Example of Mocking HTTP Client</h3>
+    <pre><code>
+final mockClient = MockClient((request) async {
+  if (request.url.toString() == 'http://localhost:3000/api/images') {
+    return http.Response(
+      json.encode([
+        {
+          'id': 1,
+          'filename': 'test.jpg',
+          'rating': 3
+        }
+      ]),
+      200,
+    );
+  }
+  return http.Response('', 404);
+});
+    </code></pre>
+
+    <div class="tip">
+        <strong>Tip:</strong> Use mocking to test different scenarios, including error cases and edge cases.
+    </div>
+
+    <h2 id="best-practices">Best Practices</h2>
+    <ul>
+        <li>Group related tests using <code>group()</code></li>
+        <li>Use descriptive test names</li>
+        <li>Test both success and failure scenarios</li>
+        <li>Keep tests independent of each other</li>
+        <li>Use appropriate matchers for assertions</li>
+        <li>Handle asynchronous operations properly</li>
+    </ul>
+
+    <h2 id="example">Complete Example</h2>
+    <p>
+        Here's a complete example of widget tests for our Image Rating App:
+    </p>
+
+    <h3>1. Basic App Tests</h3>
+    <pre><code>
+group('App Tests', () {
+  testWidgets('App title is displayed correctly', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    expect(find.text('Image Rating App'), findsOneWidget);
+  });
+
+  testWidgets('Loading indicator is shown initially', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+});
+    </code></pre>
+
+    <h3>2. Image List Screen Tests</h3>
+    <pre><code>
+group('Image List Screen Tests', () {
+  testWidgets('Images are displayed correctly', (WidgetTester tester) async {
+    // Mock HTTP client
+    final mockClient = MockClient((request) async {
+      if (request.url.toString() == 'http://localhost:3000/api/images') {
+        return http.Response(
+          json.encode([
+            {
+              'id': 1,
+              'filename': 'test.jpg',
+              'rating': 3
+            }
+          ]),
+          200,
+        );
+      }
+      return http.Response('', 404);
+    });
+
+    // Create a test app with mock client
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ImageListScreen(
+          imageService: ImageService(client: mockClient),
+        ),
+      ),
+    );
+
+    // Wait for the loading indicator to disappear
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+
+    // Verify the UI
+    expect(find.byType(Card), findsOneWidget);
+    expect(find.byType(Image), findsOneWidget);
+    expect(find.byType(IconButton), findsNWidgets(5));
+  });
+});
+    </code></pre>
+
+    <div class="warning">
+        <strong>Warning:</strong> Always clean up resources after tests, especially when using mock clients or other external dependencies.
+    </div>
+
+    <h2>Running Tests</h2>
+    <p>
+        To run your Flutter tests, use the following command in your terminal:
+    </p>
+    <pre><code>flutter test</code></pre>
+
+    <div class="tip">
+        <strong>Tip:</strong> Use <code>flutter test --coverage</code> to generate a coverage report and identify areas that need more testing.
+    </div>
+
+    <h2>Conclusion</h2>
+    <p>
+        Testing is an essential part of Flutter development that helps ensure your app's reliability and maintainability.
+        By following these guidelines and best practices, you can create robust and maintainable tests for your Flutter applications.
+    </p>
+
+    <div class="note">
+        <strong>Note:</strong> This tutorial is based on the testing implementation in the Image Rating App. For more information, refer to the <a href="https://docs.flutter.dev/testing">official Flutter testing documentation</a>.
+    </div>
+</body>
+</html> 

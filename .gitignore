@@ -1,0 +1,78 @@
+# Flutter/Dart
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/.pub-cache/
+frontend/.pub/
+frontend/build/
+frontend/coverage/
+frontend/*.iml
+frontend/*.log
+frontend/*.g.dart
+frontend/*.freezed.dart
+
+# Android
+frontend/android/**/gradle-wrapper.jar
+frontend/android/.gradle
+frontend/android/captures/
+frontend/android/gradlew
+frontend/android/gradlew.bat
+frontend/android/local.properties
+frontend/android/**/GeneratedPluginRegistrant.java
+frontend/android/key.properties
+frontend/*.jks
+
+# iOS
+frontend/ios/**/*.mode1v3
+frontend/ios/**/*.mode2v3
+frontend/ios/**/*.moved-aside
+frontend/ios/**/*.pbxuser
+frontend/ios/**/*.perspectivev3
+frontend/ios/**/*sync/
+frontend/ios/**/.sconsign.dblite
+frontend/ios/**/.tags*
+frontend/ios/**/.vagrant/
+frontend/ios/**/DerivedData/
+frontend/ios/**/Icon?
+frontend/ios/**/Pods/
+frontend/ios/**/.symlinks/
+frontend/ios/**/profile
+frontend/ios/**/xcuserdata
+frontend/ios/.generated/
+frontend/ios/Flutter/App.framework
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/ios/Flutter/Generated.xcconfig
+frontend/ios/Flutter/app.flx
+frontend/ios/Flutter/app.zip
+frontend/ios/Flutter/flutter_assets/
+frontend/ios/Flutter/flutter_export_environment.sh
+frontend/ios/ServiceDefinitions.json
+frontend/ios/Runner/GeneratedPluginRegistrant.*
+
+# Node.js
+backend/node_modules/
+backend/npm-debug.log
+backend/yarn-debug.log
+backend/yarn-error.log
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# Backend specific
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/database.sqlite
+backend/coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Test coverage
+coverage/
+*.lcov 
