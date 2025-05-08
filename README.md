@@ -38,7 +38,7 @@ A full-stack application for rating images, built with Flutter and Node.js.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Aroxed/flutter-rating-app
 cd image-rating-app
 ```
 
